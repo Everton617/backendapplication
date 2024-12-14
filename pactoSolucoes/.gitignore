@@ -22,6 +22,8 @@ target/
 .idea/
 data/
 
+teste
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

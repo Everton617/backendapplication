@@ -1,17 +1,19 @@
 FROM ubuntu:latest as build
-
 RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
-COPY . .
+RUN apt-get install -y openjdk-17-jdk
 
 RUN apt-get install -y maven
+
+COPY . /app
+
+WORKDIR /app
+
 RUN mvn clean install
 
 FROM openjdk:21-jdk-slim
 
 EXPOSE 8080
 
+COPY --from=build /app/target/pactosolucoes-1.0.0.jar pactosolucoes.jar
 
-COPY --from=build /build/target/pactosolucoes-1.0.0.jar pactosolucoes.jar
-
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+ENTRYPOINT [ "java", "-jar", "pactosolucoes.jar" ]
